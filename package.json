@@ -1,11 +1,12 @@
 {
-  "name": "backend",
+  "name": "week7-backend",
   "version": "1.0.0",
+  "description": "Rocketseat omnistack weekly 7 backend",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/server.js"
+    "start": "node src/index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
