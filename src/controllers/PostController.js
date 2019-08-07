@@ -1,20 +1,19 @@
-const Post = require('../models/Post');
 const sharp = require('sharp');
 const path = require('path');
 const fs = require('fs');
+const Post = require('../models/Post');
 
 module.exports = {
   async index(req, res) {
-    
     const posts = await Post.find().sort('-createdAt');
 
     return res.json(posts);
-
-  }, 
+  },
 
   async store(req, res) {
-
-    const { author, place, description, hashtags } = req.body;
+    const {
+      author, place, description, hashtags,
+    } = req.body;
     const { filename: image, path: pathImage, destination } = req.file;
 
     const [name] = image.split('.');
@@ -22,24 +21,24 @@ module.exports = {
 
     await sharp(pathImage)
       .resize(500)
-      .jpeg({ quality: 70})
+      .jpeg({ quality: 70 })
       .toFile(
-        path.resolve(destination, 'resized', fileName)
+        path.resolve(destination, 'resized', fileName),
       );
 
     fs.unlinkSync(pathImage);
 
     const post = await Post.create({
-      author, 
+      author,
       place,
       description,
       hashtags,
-      image: fileName
+      image: fileName,
     });
 
     req.io.emit('post', post);
 
     return res.json(post);
-  }
+  },
 
-}
+};
